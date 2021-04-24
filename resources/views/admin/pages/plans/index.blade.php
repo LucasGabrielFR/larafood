@@ -21,99 +21,37 @@ $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" titl
 @section('title', 'Planos')
 
 @section('content_header')
-    <h1>Planos</h1>
+    <h1>Planos <a href="{{ route('plans.create') }}" class="btn btn-success"><i class="fa fa-lg fa-fw fa-plus"></i></a></h1>
 @stop
 
 
 
 @section('content')
-<x-dg-card title="Release History" bg="primary">
-    <x-adminlte-datatable id="table2" :heads="$heads" head-theme="dark"
-    striped hoverable bordered compressed>
-    @foreach ($plans as $plan)
-        <tr>
-            <td>
-                {{ $plan->name }}
-            </td>
-            <td>
-                {{ $plan->price }}
-            </td>
-            <td>
-                <button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
-                    <i class="fa fa-lg fa-fw fa-pen"></i>
-                </button>
-            </td>
-        </tr>
-    @endforeach
-    </x-adminlte-datatable>
-</x-dg-card>
+<div class="card">
+    <div class="card-header">
+        #filtros
+    </div>
+    <div class="card-body">
+        <x-adminlte-datatable id="table2" :heads="$heads" head-theme="dark"
+        striped hoverable bordered compressed>
+        @foreach ($plans as $plan)
+            <tr>
+                <td>
+                    {{ $plan->name }}
+                </td>
+                <td>
+                    {{ $plan->price }}
+                </td>
+                <td>
+                    <a class="btn btn-xs btn-default text-teal mx-1 shadow" href="{{ route('plans.show',$plan->url) }}">
+                        <i class="fa fa-lg fa-fw fa-eye"></i>
+                    </a>
+                </td>
+            </tr>
+        @endforeach
+        </x-adminlte-datatable>
+    </div>
 
-@stop
-    {{-- <div class="card">
-        <div class="card-header">
-            #filtros
-        </div>
-        <div class="card-body">
-            <table class="table table-condensed">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Preco</th>
-                        <th style="width: 50px">Acoes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($plans as $plan)
-                        <tr>
-                            <td>
-                                {{ $plan->name }}
-                            </td>
-                            <td>
-                                {{ $plan->price }}
-                            </td>
-                            <td>
-                                <a href="" class="btn btn-warning">VER</a>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-        <div class="card-footer">
+</div>
 
-        </div>
-    </div> --}}
-
-
-{{-- @stop --}}
-
-
-@section('js')
-<script>
-    $(()=>{
-        data_table = $('#data_table').DataTable({
-            ajax: {
-                url: "{{route('plans.index')}}",
-                type: 'GET',
-                dataSrc: 'data'
-            },
-            columns : [
-                {data: null, defaultContent : ''},
-                {data: 'name'},
-                {data: 'price'},
-                {data: 'amount'},
-            ],
-            order: [],
-            autoWidth: false,
-        });
-        data_table.on('draw.dt', function () {
-            var PageInfo = $('#data_table').DataTable().page.info();
-            data_table.column(0, {
-                page: 'all'
-            }).nodes().each(function (cell, i) {
-                cell.innerHTML = i + 1;
-            });
-        });
-    });
-</script>
 @stop
