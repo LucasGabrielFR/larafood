@@ -49,4 +49,16 @@ class PlanController extends Controller
             ]);
         }
     }
+
+    public function destroy($url){
+        $plan = $this->repository->where('url',$url)->first();
+
+        if(!$plan){
+            return redirect()->back();
+        }else{
+            $plan->delete();
+
+            return redirect()->route('plans.index');
+        }
+    }
 }

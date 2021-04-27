@@ -3,7 +3,7 @@
 $heads = [
     'Nome',
     'Preco',
-    ['label' => 'Actions', 'no-export' => true, 'width' => 5],
+    ['label' => 'Actions', 'no-export' => true, 'width' => 6],
 ];
 
 $btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
@@ -29,7 +29,7 @@ $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" titl
 @section('content')
 <div class="card">
     <div class="card-header">
-        #filtros
+        Planos
     </div>
     <div class="card-body">
         <x-adminlte-datatable id="table2" :heads="$heads" head-theme="dark"
@@ -40,18 +40,38 @@ $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" titl
                     {{ $plan->name }}
                 </td>
                 <td>
-                    {{ $plan->price }}
+                    R$ {{ number_format($plan->price,2,',','.') }}
                 </td>
                 <td>
-                    <a class="btn btn-xs btn-default text-teal mx-1 shadow" href="{{ route('plans.show',$plan->url) }}">
-                        <i class="fa fa-lg fa-fw fa-eye"></i>
-                    </a>
+                    <div class="row">
+                        <a class="btn btn-xs btn-default text-teal mx-1 shadow" href="{{ route('plans.show',$plan->url) }}">
+                            <i class="fa fa-lg fa-fw fa-eye"></i>
+                        </a>
+
+                        <x-adminlte-button data-toggle="modal" data-target="#modalExcluir" theme="default" icon="fa fa-trash" class="btn btn-default text-danger mx-1 shadow"/>
+                    </div>
                 </td>
             </tr>
+            
         @endforeach
         </x-adminlte-datatable>
     </div>
 
 </div>
+
+<x-adminlte-modal id="modalExcluir" title="Confirmar Exclusão" size="sm" theme="danger"
+    icon="fas fa-trash" v-centered static-backdrop scrollable>
+    Você deseja realmente excluir este registro?
+    <x-slot name="footerSlot">
+        <form action="{{ route('plans.destroy',$plan->url) }}" method="POST">
+            @csrf
+            @method('DELETE')
+            <x-adminlte-button class="mr-auto" theme="danger" label="Excluir" type="submit"/>
+        </form>
+        <x-adminlte-button theme="dark" label="Cancelar" data-dismiss="modal"/>
+    </x-slot>
+</x-adminlte-modal>
+
+
 
 @stop
