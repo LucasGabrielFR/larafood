@@ -38,6 +38,17 @@ class PlanController extends Controller
         return redirect()->route('plans.index');
     }
 
+    public function update(Request $request, $id){
+        $plan = $this->repository->where('id',$id)->first();
+
+        if(!$plan){
+            return redirect()->back();
+        }else{
+            $plan->update($request->all());
+            return redirect()->route('plans.index');
+        }
+    }
+
     public function show($url){
         $plan = $this->repository->where('url',$url)->first();
 
@@ -45,6 +56,18 @@ class PlanController extends Controller
             return redirect()->back();
         }else{
             return view('admin.pages.plans.show',[
+                'plan' => $plan
+            ]);
+        }
+    }
+
+    public function edit($url){
+        $plan = $this->repository->where('url',$url)->first();
+
+        if(!$plan){
+            return redirect()->back();
+        }else{
+            return view('admin.pages.plans.edit',[
                 'plan' => $plan
             ]);
         }

@@ -3,18 +3,9 @@
 $heads = [
     'Nome',
     'Preco',
-    ['label' => 'Actions', 'no-export' => true, 'width' => 6],
+    ['label' => 'Actions', 'no-export' => true, 'width' => 8],
 ];
 
-$btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
-                <i class="fa fa-lg fa-fw fa-pen"></i>
-            </button>';
-$btnDelete = '<button class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete">
-                  <i class="fa fa-lg fa-fw fa-trash"></i>
-              </button>';
-$btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">
-                   <i class="fa fa-lg fa-fw fa-eye"></i>
-               </button>';
 @endphp
 @extends('adminlte::page')
 
@@ -44,22 +35,37 @@ $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" titl
                 </td>
                 <td>
                     <div class="row">
-                        <a class="btn btn-xs btn-default text-teal mx-1 shadow" href="{{ route('plans.show',$plan->url) }}">
+                        <a class="btn btn-xs btn-default text-teal mx-1 shadow align-self-center" href="{{ route('plans.show',$plan->url) }}">
                             <i class="fa fa-lg fa-fw fa-eye"></i>
                         </a>
 
-                        <x-adminlte-button data-toggle="modal" data-target="#modalExcluir" theme="default" icon="fa fa-trash" class="btn btn-default text-danger mx-1 shadow"/>
+                        <a class="btn btn-xs btn-default text-primary mx-1 shadow align-self-center" href="{{ route('plans.edit',$plan->url) }}">
+                            <i class="fa fa-lg fa-fw fa-pen"></i>
+                        </a>
+
+                        <x-adminlte-button data-toggle="modal" data-target="#modalExcluir{{ $plan->id }}" theme="default" icon="fa fa-trash" class="btn btn-default text-danger mx-1 shadow"/>
                     </div>
                 </td>
             </tr>
-            
+            <x-adminlte-modal id="modalExcluir{{ $plan->id }}" title="Confirmar Exclusão" size="sm" theme="danger"
+            icon="fas fa-trash" v-centered static-backdrop scrollable>
+                Você deseja realmente excluir <b>{{ $plan->name }}</b>?
+                <x-slot name="footerSlot">
+                    <form action="{{ route('plans.destroy',$plan->url) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <x-adminlte-button class="mr-auto" theme="danger" label="Excluir" type="submit"/>
+                    </form>
+                    <x-adminlte-button theme="dark" label="Cancelar" data-dismiss="modal"/>
+                </x-slot>
+            </x-adminlte-modal>
         @endforeach
         </x-adminlte-datatable>
     </div>
 
 </div>
 
-<x-adminlte-modal id="modalExcluir" title="Confirmar Exclusão" size="sm" theme="danger"
+{{-- <x-adminlte-modal id="modalExcluir" title="Confirmar Exclusão" size="sm" theme="danger"
     icon="fas fa-trash" v-centered static-backdrop scrollable>
     Você deseja realmente excluir este registro?
     <x-slot name="footerSlot">
@@ -70,7 +76,7 @@ $btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" titl
         </form>
         <x-adminlte-button theme="dark" label="Cancelar" data-dismiss="modal"/>
     </x-slot>
-</x-adminlte-modal>
+</x-adminlte-modal> --}}
 
 
 
