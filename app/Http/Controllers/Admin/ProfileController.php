@@ -38,7 +38,7 @@ class ProfileController extends Controller
 
         return view('admin.pages.profiles.create');
     }
-;
+
     public function store(StoreUpdateProfile $request){
         $this->repository->create($request->all());
 
@@ -68,8 +68,16 @@ class ProfileController extends Controller
         }
     }
 
-    public function destroy(){
+    public function destroy($id){
+        $profile = $this->repository->where('id',$id)->first();
 
+        if(!$profile){
+            return redirect()->back();
+        }else{
+            $profile->delete();
+
+            return redirect()->route('profiles.index');
+        }
     }
 
 }
