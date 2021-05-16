@@ -38,6 +38,12 @@ class ProfileController extends Controller
         return view('admin.pages.profiles.create');
     }
 
+    public function store(Request $request){
+        $this->repository->create($request->all());
+
+        return redirect()->route('profiles.index');
+    }
+
     public function update(Request $request, $id){
         $profile = $this->repository->where('id',$id)->first();
 
@@ -65,9 +71,4 @@ class ProfileController extends Controller
 
     }
 
-    public function store(Request $request){
-        $this->repository->create($request->all());
-
-        return redirect()->route('profiles.index');
-    }
 }
