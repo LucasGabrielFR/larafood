@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUpdateProfile;
 use Illuminate\Http\Request;
 use App\Models\Profile;
 
@@ -37,14 +38,14 @@ class ProfileController extends Controller
 
         return view('admin.pages.profiles.create');
     }
-
-    public function store(Request $request){
+;
+    public function store(StoreUpdateProfile $request){
         $this->repository->create($request->all());
 
         return redirect()->route('profiles.index');
     }
 
-    public function update(Request $request, $id){
+    public function update(StoreUpdateProfile $request, $id){
         $profile = $this->repository->where('id',$id)->first();
 
         if(!$profile){
