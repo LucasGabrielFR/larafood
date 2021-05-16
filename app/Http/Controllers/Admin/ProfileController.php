@@ -38,12 +38,27 @@ class ProfileController extends Controller
         return view('admin.pages.profiles.create');
     }
 
-    public function update(){
+    public function update(Request $request, $id){
+        $profile = $this->repository->where('id',$id)->first();
 
+        if(!$profile){
+            return redirect()->back();
+        }else{
+            $profile->update($request->all());
+            return redirect()->route('profiles.index');
+        }
     }
 
-    public function edit(){
+    public function edit($id){
+        $profile = $this->repository->where('id',$id)->first();
 
+        if(!$profile){
+            return redirect()->back();
+        }else{
+            return view('admin.pages.profiles.edit',[
+                'profile' => $profile
+            ]);
+        }
     }
 
     public function destroy(){

@@ -1,5 +1,6 @@
 @php
 $heads = [
+    'ID',
     'Nome',
     ['label' => 'Actions', 'no-export' => true, 'width' => 10],
 ];
@@ -25,6 +26,9 @@ $heads = [
         striped hoverable bordered compressed>
         @foreach ($profiles as $profile)
             <tr>
+                <td>
+                    {{ $profile->id }}
+                </td>
                 <td>
                     {{ $profile->name }}
                 </td>
